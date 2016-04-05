@@ -1,0 +1,35 @@
+# _*_ mode: ruby _*-
+#vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+box="perconajayj/centos-x86_64"
+
+master="ps56master"
+master_ip="192.168.56.25"
+
+slave="ps56slave"
+slaveip="192.168.56.26"
+
+
+########################
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box=box
+  config.vm.box_version = "~> 6.5"
+  config.ssh.username="root"
+
+    config.vm.provider "virtualbox" do |v|
+      v.memory=256
+     end
+
+config.vm.define "node1" do |node1|
+  node1.vm.network "private_network", ip:master_ip
+  node1.vm.hostname=master
+end
+
+config.vm.define "node2" do |node2|
+  node2.vm.network "private_network", ip:slaveip
+  node2.vm.hostname=slave
+end
+
+end
